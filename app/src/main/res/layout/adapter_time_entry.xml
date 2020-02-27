@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:id="@+id/itemBackground"
+    android:gravity="center_vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:background="#ddd"
+    android:padding="13dp"
+    android:layout_height="60dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tint="#fff"
+        android:src="@drawable/ic_list_icon"/>
+
+    <TextView
+        android:id="@+id/txtItemText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="假装这里有东西"
+        android:layout_weight="0.78"
+        android:lines="1"
+        android:singleLine="true"
+        android:textColor="#fff"
+        android:paddingLeft="10dp"
+        android:textSize="20sp"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnDeleteItem"
+        android:tint="#fff"
+        android:src="@drawable/ic_delete"
+        android:clickable="true"
+        android:background="#0000"/>
+
+</LinearLayout>
