@@ -79,12 +79,9 @@ public class MainActivity extends Activity {
                             mAdapter.add(new TimeEntry("休息", 5 * 60, 0xFFF05E1C));
                             mAdapter.add(new TimeEntry("活动", 6 * 60, 0xFF90B44B));
                         }
-                        if(which==1) {
-                            mAdapter.clear();
-                            mAdapter.add(new TimeEntry("测试事件1", 1 * 60, 0xFF43341B));
-                            mAdapter.add(new TimeEntry("测试事件2", 1 * 60, 0xFFF05E1C));
-                            mAdapter.add(new TimeEntry("测试事件3", 1 * 60, 0xFF90B44B));
-                        }
+
+
+
                     }
                 }).setTitle("选择预设时间表").create().show();
 
