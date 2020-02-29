@@ -16,6 +16,9 @@ import android.os.Handler;
 import android.os.PowerManager;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -24,7 +27,6 @@ import android.widget.TextView;
 import com.zyfdroid.tomatoclock.model.TimeEntry;
 import com.zyfdroid.tomatoclock.util.SpUtils;
 
-import java.time.Clock;
 import java.util.Date;
 import java.util.List;
 
@@ -107,7 +109,7 @@ public class ClockActivity extends Activity {
                 .setContentText(entry.getName()+"的时间到了！") //设置内容
                 .setWhen(System.currentTimeMillis())  //设置时间
                 .setSmallIcon(R.drawable.ic_stat_clock)  //设置小图标  只能使用alpha图层的图片进行设置
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))   //设置大图标
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher))   //设置大图标
                 //.setContentIntent(pi)
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
@@ -179,15 +181,36 @@ public class ClockActivity extends Activity {
         return String.format("%02d:%02d",minute,second);
     }
 
+    Interpolator accelerate = new AccelerateDecelerateInterpolator();
+    Interpolator deaccelerate = new DecelerateInterpolator();
+
     public void updateTime(){
         TimeEntry current = getCurrentTimeEntry();
         long eliminate = getEliminateTime();
+        long elapsedTime = current.getDuration() * 1000L - eliminate;
         txtClockDescription.setText(current.getName());
         clockBackground.setBackgroundColor(current.getBackgroundColor());
         txtClockTime.setText(long2TimeText(eliminate));
 
         progressTime.setMax(current.getDuration() * 100);
         progressTime.setProgress(current.getDuration() * 100 - (int) (eliminate / 10));
+
+        float animationX = 1;
+        float animationSize=1;
+        if(eliminate<667){
+            animationX =(eliminate) / 667f;
+            animationSize =2f- accelerate.getInterpolation(animationX);
+        }
+        if(elapsedTime < 667){
+            animationX =(elapsedTime)  / 667f;
+            animationSize = 0.5f + 0.5f * deaccelerate.getInterpolation(animationX);
+        }
+
+        Interpolator ip = new AccelerateDecelerateInterpolator();
+
+        clockBackground.setAlpha(animationX);
+        clockBackground.setScaleX(animationSize);
+        clockBackground.setScaleY(animationSize);
     }
 
 

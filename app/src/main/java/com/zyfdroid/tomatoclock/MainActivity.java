@@ -48,10 +48,6 @@ public class MainActivity extends Activity {
         }
 
         setContentView(R.layout.activity_main);
-//        List<TimeEntry> testdata = new ArrayList<TimeEntry>();
-//        testdata.add(new TimeEntry("学习",30 * 60, Color.BLUE));
-//        testdata.add(new TimeEntry("放松",5 * 60, Color.YELLOW));
-//        testdata.add(new TimeEntry("活动",6 * 60, Color.GREEN));
         ((ListView)findViewById(R.id.listMain)).setAdapter(mAdapter = new TimeEntryAdapter(new ArrayList<TimeEntry>()));
         mAdapter.addAll(SpUtils.getCurrent());
 
@@ -79,7 +75,12 @@ public class MainActivity extends Activity {
                             mAdapter.add(new TimeEntry("休息", 5 * 60, 0xFFF05E1C));
                             mAdapter.add(new TimeEntry("活动", 6 * 60, 0xFF90B44B));
                         }
-
+                        if(which==1) {
+                            mAdapter.clear();
+                            mAdapter.add(new TimeEntry("1", 10, 0xFF43341B));
+                            mAdapter.add(new TimeEntry("2", 15, 0xFFF05E1C));
+                            mAdapter.add(new TimeEntry("3", 8, 0xFF90B44B));
+                        }
 
 
                     }
@@ -100,6 +101,10 @@ public class MainActivity extends Activity {
         menu.add("开始").setIcon(R.drawable.ic_menu_start).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                if(mAdapter.getCount()<1){
+                    Toast.makeText(MainActivity.this, "没有添加事件条目。", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
                 new AlertDialog.Builder(MainActivity.this).setTitle("启动番茄钟").setMessage("是否启动番茄钟?")
                         .setPositiveButton("是的", new DialogInterface.OnClickListener() {
                             @Override
